@@ -6,6 +6,8 @@ import {
   ThemeButton,
   Title,
 } from "./styles";
+import { Route,Switch } from "react-router";
+
 import React, { useState } from "react";
 
 import Home from "./components/Home";
@@ -16,6 +18,7 @@ import ProductList from "./components/ProductList";
 import { ThemeProvider } from "styled-components";
 // Data
 import products from "./products";
+
 
 const theme = {
   light: {
@@ -57,25 +60,40 @@ function App() {
 
   const setView = () =>
     product ? (
-      <ProductDetail
+     
+              <ProductDetail
         product={product}
         deleteProduct={deleteProduct}
         selectProduct={selectProduct}
       />
+
     ) : (
       <ProductList
         products={_products}
         deleteProduct={deleteProduct}
         selectProduct={selectProduct}
       />
+    
     );
 
   return (
     <ThemeProvider theme={theme[currentTheme]}>
       <GlobalStyle />
       <NavBar currentTheme={currentTheme} toggleTheme={toggleTheme} />
-      <Home />
+      <Switch>
+      <Route path="/" exact>    
+          <Home />
+      </Route>
+      <Route path="/products" exact>    
       {setView()}
+      </Route>
+      <Route path="/">
+      <h4>404</h4>
+      <p> PAGE NOT FOUND!</p>
+
+      </Route>
+      </Switch>
+    
     </ThemeProvider>
   );
 }
